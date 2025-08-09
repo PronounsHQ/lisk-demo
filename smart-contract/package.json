@@ -1,0 +1,16 @@
+{
+  "name": "smart-contract",
+  "module": "index.ts",
+  "private": true,
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox-viem": "^4.0.0",
+    "@types/bun": "latest",
+    "hardhat": "^2.26.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.4.0"
+  }
+}

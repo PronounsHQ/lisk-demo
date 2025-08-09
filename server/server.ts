@@ -36,6 +36,10 @@ const liskTokenSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  tokenName: {
+    type: String,
+    required: true
+  },
   creator: {
     type: String,
     required: true
@@ -59,18 +63,18 @@ server.get("/", async (req: Request, res: Response) => {
 
 server.post("/save-token", async (req: Request, res: Response) => {
   try {
-    const { name, tokenAddress }: { name: string, tokenAddress: string } = req.body;
+    const { name, tokenName, tokenAddress }: { name: string, tokenName: string, tokenAddress: string } = req.body;
 
     const userExists = await user.findOne({ name });
     if (!userExists) {
       await user.create({ name });
-      await token.create({ creator: name, token: tokenAddress });
+      await token.create({ creator: name, tokenName, token: tokenAddress });
 
       res.status(201).json({ message: "user and token created in server", name });
       return;
     }
 
-    await token.create({ creator: name, token: tokenAddress });
+    await token.create({ creator: name, tokenName, token: tokenAddress });
 
     res.status(201).json({ message: "token created in server" });
   } catch (error) {

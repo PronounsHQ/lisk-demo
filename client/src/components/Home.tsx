@@ -5,8 +5,8 @@ import { useWallets, useLogin, usePrivy } from "@privy-io/react-auth";
 import { ClipLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { BACKEND_URL } from "@/lib/constants";
-import deployToken from "@/lib/deployToken";
+import { BACKEND_URL } from "../lib/constants";
+import deployToken from "../lib/deployToken";
 
 interface Token {
   _id: string;
@@ -23,7 +23,7 @@ const Home = () => {
   const [tokens, setTokens] = useState<Token[]>([]);
   const [deploying, setDeploy] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  let usernameFound: string | undefined;
+  let usernameFound: string | null = null;
 
   const { authenticated, ready } = usePrivy(); 
 
@@ -35,7 +35,7 @@ const Home = () => {
       const { data } = await axios.get(`${BACKEND_URL}`);
       setTokens(data.tokens);
 
-      usernameFound = localStorage.get("username");
+      usernameFound = localStorage.getItem("username");
     })()
   });
 
@@ -65,6 +65,7 @@ const Home = () => {
         return;
       }
 
+      localStorage.setItem("username", username);
       await axios.post(`${BACKEND_URL}/save-info`, { token, name: username });
 
       toast.success("Token created");

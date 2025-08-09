@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from "react-hot-toast";
-import Home from "@/components/Home";
+import Home from "./components/Home.tsx";
 
 function App() {
   return (

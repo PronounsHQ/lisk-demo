@@ -17,7 +17,8 @@ createRoot(document.getElementById('root')!).render(
             createOnLogin: "all-users"
           }
         },
-        defaultChain: network
+        defaultChain: network,
+        supportedChains: [network]
       }}
     >
       <App />

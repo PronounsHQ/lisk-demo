@@ -1,6 +1,6 @@
 import { lisk, liskSepolia } from "viem/chains";
 
-const ENVIRONMENT = import.meta.env.ENVIRONMENT;
+const ENVIRONMENT = import.meta.env.VITE_ENVIRONMENT;
 
 export const network = ENVIRONMENT === "development" ? liskSepolia : lisk;
 

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { X, Plus, Coins } from 'lucide-react';
-import { useWallets } from "@privy-io/react-auth";
+import { useWallets, useLogin, usePrivy } from "@privy-io/react-auth";
 import { ClipLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -25,8 +25,13 @@ const Home = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   let usernameFound: string | undefined;
 
+  const { authenticated, ready } = usePrivy(); 
+
   useEffect(() => {
     (async () => {
+      if (ready && authenticated) {
+        setLoggedIn(true);
+      }
       const { data } = await axios.get(`${BACKEND_URL}`);
       setTokens(data.tokens);
 
@@ -34,9 +39,12 @@ const Home = () => {
     })()
   });
 
-  const login = async () => {
-    
-  }
+  const { login } = useLogin({
+    onComplete: () => {
+      setLoggedIn(true);
+      toast.success("Logged in")
+    }
+  })
 
   const { wallets } = useWallets();
   
@@ -45,8 +53,6 @@ const Home = () => {
       setDeploy(true)
       const wallet = wallets[0];
       const provider = await wallet.getEthereumProvider();
-
-      // Deployment logic would go here
 
       const token = await deployToken(provider, tokenName, symbol);
       
